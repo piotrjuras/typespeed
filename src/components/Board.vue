@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue';
 import { WordModel } from '../types';
 import Text from './partials/Text.vue';
 import { useAppStore } from '../store/app';
@@ -37,7 +37,9 @@ const sentence = ref();
 const cursor = ref();
 const textarea = ref();
 
-const setCursor = () => {
+const setCursor = async () => {
+    await nextTick();
+
     const word = sentence.value.querySelector(`#word${providedWords.value.length-1}`);
     const letter = word?.querySelector(`#letter${providedWords.value[providedWords.value.length-1].length-1}`) ||
         word?.querySelector(`#letter0`) || null as HTMLDivElement | null;
@@ -52,9 +54,9 @@ const setCursor = () => {
 
     if (letter.classList.contains('empty')) {
         cursor.value.classList.add('active');
-        cursor.value.style.marginLeft = '0px';
+        cursor.value.style.transform = 'translateX(0px)';
     } else {
-        cursor.value.style.marginLeft = `${width}px`;
+        cursor.value.style.transform = `translateX(${width}px)`;
     }
 
     appStore.wordsCorrect = words.value.filter(word => word.letters.every(({ provided, original }) => provided === original)).length
