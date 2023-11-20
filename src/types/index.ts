@@ -10,3 +10,8 @@ export interface LetterModel {
     provided: string | null;
     index: number
 }
+
+export interface StatItemModel {
+    time: any;
+    correct: boolean;
+}

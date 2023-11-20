@@ -2,6 +2,7 @@
 import { computed, onUnmounted, ref } from 'vue';
 import axios from 'axios';
 import Board from './components/Board.vue';
+import Stat from './components/partials/Stat.vue';
 import { useAppStore } from './store/app'
 
 const sentence = ref<string>('');
@@ -59,6 +60,7 @@ onUnmounted(() => {
     <template v-if="ended">
         <h1>THE END.</h1>
         <p>Your score is {{ wpm }} WPM with {{ appStore.accuracy }}% of accuracy</p>
+        <Stat />
     </template>
     <template v-else>
         <Board v-if="sentence.length && !loading" :sentence="sentence" @start="start" />

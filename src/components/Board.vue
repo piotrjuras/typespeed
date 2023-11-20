@@ -82,10 +82,12 @@ const handleStart = () => {
 }
 
 const handleAccuracy = (e: any) => {
-    if (e.inputType === 'deleteContentBackward')
-        appStore.corrections++
-    else
-        appStore.typed++
+    const time = new Date().getTime();
+
+    appStore.typed.push({
+        time,
+        correct: e.inputType !== 'deleteContentBackward'
+    })
 }
 
 </script>
